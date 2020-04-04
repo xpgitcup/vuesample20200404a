@@ -6,14 +6,16 @@
                 </el-image>
             </div>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="18">
             <div class="title">液体管道模拟</div>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="4">
             <div style="float: right">
                 <div v-if="$store.state.currentUser">
-                    {{$store.state.currentUser.username}}
+                    <span>
+                    <el-button>{{$store.state.currentUser.username}}</el-button>
                     <el-button @click="logout">退出</el-button>
+                    </span>
                 </div>
                 <div v-else>
                     <router-link to="/Login">登录</router-link>
