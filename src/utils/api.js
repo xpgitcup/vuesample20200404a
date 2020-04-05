@@ -83,8 +83,9 @@ export const postKeyValueRequest = (url, params) => {
 }
 
 export const postRequest = (url, params) => {
-    // console.log("开始调用...");
-    // console.log(url);
+    console.log("开始调用...");
+    console.log(url);
+    console.log(params);
     return axios({
         method: 'post',
         url: `${base}${url}`,
