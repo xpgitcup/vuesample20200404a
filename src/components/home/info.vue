@@ -1,10 +1,21 @@
 <template>
     <div>
         <el-table :data="tableData">
-            <el-table-column prop="id" label="ID"></el-table-column>
-            <el-table-column prop="itemName" label="名称"></el-table-column>
-            <el-table-column prop="description" label="描述"></el-table-column>
+            <el-table-column v-for="(item, index) in tableHeader"
+                             :label="item"
+                             :column-key="item"
+                             :prop="item"
+                             :key="index"
+            >
+            </el-table-column>
         </el-table>
+
+        <!--        <el-table :data="tableData">-->
+        <!--            <el-table-column prop="id" label="ID"></el-table-column>-->
+        <!--            <el-table-column prop="itemName" label="名称"></el-table-column>-->
+        <!--            <el-table-column prop="description" label="描述"></el-table-column>-->
+        <!--        </el-table>-->
+
         <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
@@ -23,6 +34,7 @@
         data() {
             return {
                 tableData: [],
+                tableHeader: [],
                 currentPage: 1,
                 pageSize: 10,
                 total: 100
@@ -37,8 +49,9 @@
         methods: {
             // 初始页currentPage、初始每页数据数pagesize和数据data
             handleSizeChange: function (size) {
-                this.pagesize = size;
-                // console.log(this.pagesize)  //每页下拉显示数据
+                this.pageSize = size;
+                console.log("每页大小改变了...")  //每页下拉显示数据
+                console.log(this.pageSize)  //每页下拉显示数据
                 this.handleUserList();
             },
             handleCurrentChange: function (currentPage) {
@@ -48,6 +61,7 @@
             },
             handleUserList() {
                 this.loading = true;
+                console.log("每页大小：" + this.pageSize)
                 var offset = (this.currentPage - 1) * this.pageSize;
                 this.postRequest('/toDoItem/list', 'offset=' + offset + '&max=' + this.pageSize).then(resp => {
                     this.loading = false;
@@ -60,7 +74,8 @@
                         console.log('元素类型：' + typeof e);
                         console.log('描述：' + e.description);
                         console.log('描述：' + ee);
-                        console.log('描述：' + Object.keys(ee));
+                        console.log('表头：' + Object.keys(ee));
+                        this.tableHeader = Object.keys(ee);
                         this.tableData = resp.list;
                         this.total = resp.total;
                     }
